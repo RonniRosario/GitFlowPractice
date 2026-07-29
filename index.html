@@ -36,13 +36,26 @@
         <!-- Toast-like notifications are dynamically injected into #alert-container -->
         <div id="alert-container" aria-live="polite" aria-atomic="true"></div>
 
-        <!-- Product Search -->
-        <div class="mb-4">
-          <div class="input-group search-group">
+        <!-- Product Search and Filter -->
+        <div class="d-flex flex-column flex-md-row gap-3 mb-4">
+          <!-- Search Input -->
+          <div class="input-group search-group flex-grow-1">
             <span class="input-group-text search-icon-container">
               <i class="bi bi-search"></i>
             </span>
             <input type="text" class="form-control" id="search-input" placeholder="Search products by name...">
+          </div>
+          <!-- Category Filter -->
+          <div class="category-filter-container">
+            <select class="form-select" id="category-filter">
+              <option value="" selected>All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Home & Kitchen">Home & Kitchen</option>
+              <option value="Books">Books</option>
+              <option value="Beauty & Personal Care">Beauty & Personal Care</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+            </select>
           </div>
         </div>
 
