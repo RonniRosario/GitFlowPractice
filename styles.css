@@ -175,3 +175,35 @@ body {
   margin-bottom: 1rem;
   color: var(--border-color);
 }
+
+/* Search Input Custom Styling */
+.search-group {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.search-icon-container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-right: none;
+  color: var(--text-muted);
+  padding-left: 1rem;
+  font-size: 1rem;
+}
+
+#search-input {
+  border-left: none;
+  padding-left: 0.25rem;
+}
+
+.search-group:focus-within {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.search-group:focus-within .search-icon-container,
+.search-group:focus-within #search-input {
+  border-color: var(--primary-color);
+}
+
