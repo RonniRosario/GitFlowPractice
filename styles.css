@@ -208,7 +208,8 @@ body {
 }
 
 @media (min-width: 768px) {
-  .category-filter-container {
+  .category-filter-container,
+  .sort-container {
     min-width: 220px;
   }
 }
