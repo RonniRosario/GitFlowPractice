@@ -21,6 +21,7 @@ const productModalLabel = document.getElementById('productModalLabel');
 const btnAddProduct = document.getElementById('btn-add-product');
 const searchInput = document.getElementById('search-input');
 const categoryFilter = document.getElementById('category-filter');
+const productCounter = document.getElementById('product-counter');
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
@@ -96,6 +97,7 @@ function renderProducts() {
   if (products.length === 0) {
     if (searchInput) searchInput.value = '';
     if (categoryFilter) categoryFilter.value = '';
+    updateProductCounter(0);
     emptyState.querySelector('h5').textContent = 'No products found';
     emptyState.querySelector('p').textContent = 'Get started by creating your first product using the "Add Product" button above.';
     emptyState.classList.remove('d-none');
@@ -112,12 +114,14 @@ function renderProducts() {
   });
   
   if (filteredProducts.length === 0) {
+    updateProductCounter(0);
     emptyState.querySelector('h5').textContent = 'No matching products found';
     emptyState.querySelector('p').textContent = 'Try adjusting your search or category filter.';
     emptyState.classList.remove('d-none');
     return;
   }
   
+  updateProductCounter(filteredProducts.length);
   emptyState.classList.add('d-none');
   
   filteredProducts.forEach(product => {
@@ -303,3 +307,17 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+/**
+ * Updates the product counter display with the given count.
+ * @param {number} count - Number of visible products
+ */
+function updateProductCounter(count) {
+  if (!productCounter) return;
+  if (count === 1) {
+    productCounter.textContent = '1 product';
+  } else {
+    productCounter.textContent = `${count} products`;
+  }
+}
+
