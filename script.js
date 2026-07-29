@@ -22,6 +22,7 @@ const btnAddProduct = document.getElementById('btn-add-product');
 const searchInput = document.getElementById('search-input');
 const categoryFilter = document.getElementById('category-filter');
 const productCounter = document.getElementById('product-counter');
+const productSort = document.getElementById('product-sort');
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
@@ -60,6 +61,11 @@ function setupEventListeners() {
   if (categoryFilter) {
     categoryFilter.addEventListener('change', renderProducts);
   }
+
+  // Sort products as the user changes sorting option
+  if (productSort) {
+    productSort.addEventListener('change', renderProducts);
+  }
 }
 
 /**
@@ -97,6 +103,7 @@ function renderProducts() {
   if (products.length === 0) {
     if (searchInput) searchInput.value = '';
     if (categoryFilter) categoryFilter.value = '';
+    if (productSort) productSort.value = 'default';
     updateProductCounter(0);
     emptyState.querySelector('h5').textContent = 'No products found';
     emptyState.querySelector('p').textContent = 'Get started by creating your first product using the "Add Product" button above.';
@@ -107,11 +114,27 @@ function renderProducts() {
   const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
   const selectedCategory = categoryFilter ? categoryFilter.value : '';
   
-  const filteredProducts = products.filter(product => {
+  let filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm);
     const matchesCategory = selectedCategory === '' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const sortVal = productSort ? productSort.value : 'default';
+  if (sortVal !== 'default') {
+    filteredProducts.sort((a, b) => {
+      if (sortVal === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      } else if (sortVal === 'name-desc') {
+        return b.name.localeCompare(a.name);
+      } else if (sortVal === 'price-asc') {
+        return a.price - b.price;
+      } else if (sortVal === 'price-desc') {
+        return b.price - a.price;
+      }
+      return 0;
+    });
+  }
   
   if (filteredProducts.length === 0) {
     updateProductCounter(0);
