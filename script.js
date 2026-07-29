@@ -20,6 +20,7 @@ const productPriceInput = document.getElementById('productPrice');
 const productModalLabel = document.getElementById('productModalLabel');
 const btnAddProduct = document.getElementById('btn-add-product');
 const searchInput = document.getElementById('search-input');
+const categoryFilter = document.getElementById('category-filter');
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,6 +53,11 @@ function setupEventListeners() {
   // Filter products as the user types
   if (searchInput) {
     searchInput.addEventListener('input', renderProducts);
+  }
+
+  // Filter products as the user changes category
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', renderProducts);
   }
 }
 
@@ -89,6 +95,7 @@ function renderProducts() {
   
   if (products.length === 0) {
     if (searchInput) searchInput.value = '';
+    if (categoryFilter) categoryFilter.value = '';
     emptyState.querySelector('h5').textContent = 'No products found';
     emptyState.querySelector('p').textContent = 'Get started by creating your first product using the "Add Product" button above.';
     emptyState.classList.remove('d-none');
@@ -96,13 +103,17 @@ function renderProducts() {
   }
   
   const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm)
-  );
+  const selectedCategory = categoryFilter ? categoryFilter.value : '';
+  
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+    const matchesCategory = selectedCategory === '' || product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
   
   if (filteredProducts.length === 0) {
     emptyState.querySelector('h5').textContent = 'No matching products found';
-    emptyState.querySelector('p').textContent = 'Try adjusting your search term.';
+    emptyState.querySelector('p').textContent = 'Try adjusting your search or category filter.';
     emptyState.classList.remove('d-none');
     return;
   }
