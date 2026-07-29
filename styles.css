@@ -213,4 +213,17 @@ body {
   }
 }
 
+.product-counter-badge {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: #f1f5f9;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  display: inline-flex;
+  align-items: center;
+}
+
+
 
