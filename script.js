@@ -214,17 +214,34 @@ function openEditModal(id) {
 function handleFormSubmit(event) {
   event.preventDefault();
   
+  const id = productIdInput.value;
+  const name = productNameInput.value.trim();
+  const category = productCategoryInput.value;
+  const price = parseFloat(productPriceInput.value);
+
+  // Check for duplicate product name (case-insensitive)
+  const isDuplicate = products.some(p => p.id !== id && p.name.trim().toLowerCase() === name.toLowerCase());
+
+  if (isDuplicate) {
+    productNameInput.setCustomValidity("A product with this name already exists.");
+    const feedback = productNameInput.nextElementSibling;
+    if (feedback && feedback.classList.contains('invalid-feedback')) {
+      feedback.textContent = "A product with this name already exists.";
+    }
+  } else {
+    productNameInput.setCustomValidity("");
+    const feedback = productNameInput.nextElementSibling;
+    if (feedback && feedback.classList.contains('invalid-feedback')) {
+      feedback.textContent = "Please enter a valid product name.";
+    }
+  }
+  
   // Custom Bootstrap Form Validation visual states
   if (!productForm.checkValidity()) {
     event.stopPropagation();
     productForm.classList.add('was-validated');
     return;
   }
-  
-  const id = productIdInput.value;
-  const name = productNameInput.value.trim();
-  const category = productCategoryInput.value;
-  const price = parseFloat(productPriceInput.value);
   
   if (id) {
     // Edit flow
@@ -279,6 +296,11 @@ function resetForm() {
   productForm.reset();
   productForm.classList.remove('was-validated');
   productIdInput.value = '';
+  productNameInput.setCustomValidity('');
+  const feedback = productNameInput.nextElementSibling;
+  if (feedback && feedback.classList.contains('invalid-feedback')) {
+    feedback.textContent = "Please enter a valid product name.";
+  }
 }
 
 /**
