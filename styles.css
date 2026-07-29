@@ -207,3 +207,10 @@ body {
   border-color: var(--primary-color);
 }
 
+@media (min-width: 768px) {
+  .category-filter-container {
+    min-width: 220px;
+  }
+}
+
+
