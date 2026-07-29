@@ -19,6 +19,7 @@ const productCategoryInput = document.getElementById('productCategory');
 const productPriceInput = document.getElementById('productPrice');
 const productModalLabel = document.getElementById('productModalLabel');
 const btnAddProduct = document.getElementById('btn-add-product');
+const searchInput = document.getElementById('search-input');
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,6 +48,11 @@ function setupEventListeners() {
     productModalLabel.textContent = 'Add Product';
     productIdInput.value = '';
   });
+
+  // Filter products as the user types
+  if (searchInput) {
+    searchInput.addEventListener('input', renderProducts);
+  }
 }
 
 /**
@@ -82,13 +88,28 @@ function renderProducts() {
   productTableBody.innerHTML = '';
   
   if (products.length === 0) {
+    if (searchInput) searchInput.value = '';
+    emptyState.querySelector('h5').textContent = 'No products found';
+    emptyState.querySelector('p').textContent = 'Get started by creating your first product using the "Add Product" button above.';
+    emptyState.classList.remove('d-none');
+    return;
+  }
+  
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm)
+  );
+  
+  if (filteredProducts.length === 0) {
+    emptyState.querySelector('h5').textContent = 'No matching products found';
+    emptyState.querySelector('p').textContent = 'Try adjusting your search term.';
     emptyState.classList.remove('d-none');
     return;
   }
   
   emptyState.classList.add('d-none');
   
-  products.forEach(product => {
+  filteredProducts.forEach(product => {
     const row = document.createElement('tr');
     
     // Formatting price as USD currency
